@@ -1,0 +1,13 @@
+.Main-List {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  padding: 10px 0;
+  margin: 100px 60px;
+}
+
+.main-item-wrapper {
+  width: 200px;
+  margin-bottom: 30px;
+}
