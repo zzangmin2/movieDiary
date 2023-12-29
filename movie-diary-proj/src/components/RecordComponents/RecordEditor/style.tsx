@@ -44,25 +44,24 @@ export const RecordEditorTopSection = styled.section`
   & > div {
     margin-right: 50px;
   }
-  & > button {
-    height: 50px;
-    background-color: ${() => theme.colors.Main};
-    padding: 5px 20px;
-    border-radius: 5px;
-    border: 1px solid black;
-    font-size: 1rem;
-    color: black;
-    cursor: pointer;
-  }
 `;
 export const InputWrapper = styled.div`
-  display: inline-block;
   font-size: 1.25rem;
   margin-right: 50px;
 
-  & > div {
+  & > div:nth-child(1) {
     margin-bottom: 10px;
     font-size: 0.75rem;
+    color: #9c9c9c;
+  }
+  & > div:nth-child(2) {
+    display: flex;
+  }
+  & > div:nth-child(2) button {
+    padding: 0;
+    margin-left: 15px;
+    background: none;
+    text-decoration: underline;
     color: #9c9c9c;
   }
   & input {
