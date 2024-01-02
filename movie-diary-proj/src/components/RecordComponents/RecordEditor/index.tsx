@@ -17,7 +17,6 @@ const RecordEditor = () => {
   };
   return (
     <>
-      <Header title={"본 영화 기록하기"} userName={"전달미완료"}></Header>
       <S.RecordEditor>
         <S.RecordEditorTopSection>
           <S.InputWrapper>

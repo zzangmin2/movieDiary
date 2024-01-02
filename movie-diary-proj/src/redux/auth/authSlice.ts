@@ -28,16 +28,10 @@ const authSlice = createSlice({
     login: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
       state.loginState = true;
-      // localStorage에 로그인 정보 저장
-      localStorage.setItem("user", JSON.stringify(action.payload));
-      localStorage.setItem("loginState", "true");
     },
     logout: (state) => {
       state.user = null;
       state.loginState = false;
-      // localStorage에서 로그인 정보 삭제
-      localStorage.removeItem("user");
-      localStorage.removeItem("loginState");
     },
   },
 });

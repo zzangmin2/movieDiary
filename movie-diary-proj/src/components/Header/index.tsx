@@ -3,6 +3,8 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
 import * as S from "./style";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux";
 
 interface Props {
   title: string;
@@ -11,6 +13,7 @@ interface Props {
 }
 
 const Header: React.FC<Props> = ({ title, userName, isHome }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -20,9 +23,11 @@ const Header: React.FC<Props> = ({ title, userName, isHome }) => {
       if (userData) {
         const parsedUserData = JSON.parse(userData);
         if (parsedUserData.userName === userName) {
-          console.log(parsedUserData.userName);
-          parsedUserData.loginState = false;
-          localStorage.setItem(`userData${i}`, JSON.stringify(parsedUserData));
+          // console.log(parsedUserData.userName);
+          // parsedUserData.loginState = false;
+          // localStorage.setItem(`userData${i}`, JSON.stringify(parsedUserData));
+
+          dispatch(logout());
 
           alert("로그아웃!!");
           navigate("/login");
@@ -45,7 +50,7 @@ const Header: React.FC<Props> = ({ title, userName, isHome }) => {
           </div>
           {userName}
         </S.MypageBtn>
-        {/* <button onClick={handleLogout}>로그아웃</button> */}
+        <button onClick={handleLogout}>로그아웃</button>
       </div>
     </S.Header>
   );

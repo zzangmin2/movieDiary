@@ -7,7 +7,6 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [userName, setUserName] = useState("");
-  const [loginState, setLoginState] = useState(false);
   const navigate = useNavigate();
 
   const handleEmailChange = useCallback(
@@ -81,7 +80,6 @@ const SignUp = () => {
       email,
       password,
       userName,
-      loginState,
     };
 
     const numberOfLocalStorageKeys = localStorage.length;
@@ -95,9 +93,6 @@ const SignUp = () => {
     navigate("/login");
   }, [email, password, confirmPassword, userName, navigate]);
 
-  const myStyle = {
-    margin: "30px",
-  };
   return (
     <S.SignUp>
       <div>
