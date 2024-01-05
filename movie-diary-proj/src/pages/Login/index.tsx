@@ -2,61 +2,41 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as S from "./style";
 import { useDispatch } from "react-redux";
-import { login } from "../../redux";
 import { parse } from "path";
 import { RootState } from "../../redux/rootReducer";
 import { useSelector } from "react-redux";
+import { login } from "../../redux/auth/authSlice";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
   const [user, setUser] = useState({ email: "", password: "", userName: "" });
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const loggedInUserData = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    // 이미 로그인되어 있다면 홈 페이지로 리다이렉션
     if (loggedInUserData.loginState) {
       navigate("/");
     }
   }, [loggedInUserData, navigate]);
-  // const handleIdChange = useCallback(
-  //   (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     setEmail(e.target.value);
-  //   },
-  //   [email]
-  // );
-  // const handlePasswordChange = useCallback(
-  //   (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     setPassword(e.target.value);
-  //   },
-  //   [password]
-  // );
 
   const handleLogin = () => {
-    for (let i = 0; i < localStorage.length; i++) {
-      const userData = localStorage.getItem(`userData${i}`);
+    const storedUserData = localStorage.getItem("user");
+    const userArray = storedUserData ? JSON.parse(storedUserData) : {};
 
-      if (userData) {
-        const parsedUserData = JSON.parse(userData);
-
-        console.log(parsedUserData);
-        console.log(user.email, user.password);
-        if (
-          parsedUserData.email === user.email &&
-          parsedUserData.password === user.password
-        ) {
-          // parsedUserData.loginState = true;
-          // localStorage.setItem(`userData${i}`, JSON.stringify(parsedUserData));
-
-          alert("로그인 성공!!");
-          dispatch(login(parsedUserData));
-          navigate("/");
-          return;
-        }
+    for (let i = 0; i < userArray.length; i++) {
+      const userData = userArray[i];
+      if (
+        userData.email === user.email &&
+        userData.password === user.password
+      ) {
+        alert("로그인 성공!!");
+        localStorage.setItem("authUser", JSON.stringify(userData));
+        dispatch(login(userData));
+        navigate("/");
+        return;
       }
     }
+
     alert("이메일 또는 비밀번호를 확인해주세요!");
   };
 

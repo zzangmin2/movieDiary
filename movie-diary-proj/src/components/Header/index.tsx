@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
 import * as S from "./style";
 import { useDispatch } from "react-redux";
-import { logout } from "../../redux";
+import { logout } from "../../redux/auth/authSlice";
 
 interface Props {
   title: string;
@@ -17,22 +17,17 @@ const Header: React.FC<Props> = ({ title, userName, isHome }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    for (let i = 0; i < localStorage.length; i++) {
-      const userData = localStorage.getItem(`userData${i}`);
+    const storedUserData = localStorage.getItem("user");
+    const userArray = storedUserData ? JSON.parse(storedUserData) : {};
 
-      if (userData) {
-        const parsedUserData = JSON.parse(userData);
-        if (parsedUserData.userName === userName) {
-          // console.log(parsedUserData.userName);
-          // parsedUserData.loginState = false;
-          // localStorage.setItem(`userData${i}`, JSON.stringify(parsedUserData));
+    for (let i = 0; i < userArray.length; i++) {
+      const userData = userArray[i];
+      if (userData.userName === userName) {
+        dispatch(logout());
 
-          dispatch(logout());
-
-          alert("로그아웃!!");
-          navigate("/login");
-          return;
-        }
+        alert("로그아웃!!");
+        navigate("/login");
+        return;
       }
     }
   };

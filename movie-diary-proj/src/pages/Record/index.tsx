@@ -13,7 +13,9 @@ const Record = () => {
         title={"본 영화 기록하기"}
         userName={loggedInUserData.user?.userName || "로그인이 필요해"}
       ></Header>
-      <RecordEditor />
+      <RecordEditor
+        userEmail={loggedInUserData.user?.email || "로그인이 필요해"}
+      />
     </S.Record>
   );
 };

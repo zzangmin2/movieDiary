@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 
 interface Props {
   closeModal: () => void;
-  setSelectedMovie: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedMovieInfo: React.Dispatch<React.SetStateAction<Movie>>;
 }
 
 interface Movie {
@@ -12,16 +12,15 @@ interface Movie {
   poster_path: string;
   title: string;
   release_date: string;
-  original_language: string;
 }
 
 const MovieSelectModal: React.FC<Props> = ({
   closeModal,
-  setSelectedMovie,
+  setSelectedMovieInfo,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [selectedMovie, setSelectedMovieState] = useState<string>("");
+  const [selectedMovie, setSelectedMovie] = useState<Movie>();
 
   const apiKey = "8a30d757cc508b84e1bb016450c77af9";
 
@@ -47,7 +46,7 @@ const MovieSelectModal: React.FC<Props> = ({
 
   const handleMovieSelect = () => {
     if (selectedMovie) {
-      setSelectedMovie(selectedMovie);
+      setSelectedMovieInfo(selectedMovie);
       closeModal();
     }
   };
@@ -75,7 +74,14 @@ const MovieSelectModal: React.FC<Props> = ({
                 <input
                   type="radio"
                   name="selected-movie"
-                  onChange={() => setSelectedMovieState(movie.title)}
+                  onChange={() =>
+                    setSelectedMovie({
+                      id: movie.id,
+                      poster_path: movie.poster_path,
+                      title: movie.title,
+                      release_date: movie.release_date,
+                    })
+                  }
                 />
                 <div>
                   <img

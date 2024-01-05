@@ -20,24 +20,11 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // let foundUserData: AuthState | undefined;
-    // for (let i = 0; i < localStorage.length; i++) {
-    //   const userData = localStorage.getItem(`userData${i}`);
-    //   if (userData) {
-    //     const parsedUserData = JSON.parse(userData) as AuthState; //타입 단언
-    //     if (parsedUserData.loginState === true) {
-    //       foundUserData = parsedUserData;
-    //       break;
-    //     }
-    //   }
-    // }
-    // if (foundUserData) {
-    //   setLoggedInUserData(foundUserData);
-    // } else {
-    //   navigate("/login");
-    // }
-
-    if (!loggedInUserData || !loggedInUserData?.loginState) {
+    if (
+      !loggedInUserData ||
+      !loggedInUserData.user ||
+      !loggedInUserData.loginState
+    ) {
       navigate("/login");
     }
   }, [loggedInUserData, navigate]);

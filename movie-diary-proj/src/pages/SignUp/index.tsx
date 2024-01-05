@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./style";
+import { parse } from "path";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -35,27 +36,6 @@ const SignUp = () => {
   );
 
   const handleSignUp = useCallback(() => {
-    if (password !== confirmPassword) {
-      alert("비밀번호가 일치하지 않습니다.");
-      return;
-    }
-
-    for (let i = 0; i < localStorage.length; i++) {
-      const userData = localStorage.getItem(`userData${i}`);
-
-      if (userData) {
-        const parsedUserData = JSON.parse(userData);
-        if (parsedUserData.email === email) {
-          alert("이미 사용 중인 이메일입니다.");
-          return;
-        }
-        if (parsedUserData.userName === userName) {
-          alert("이미 사용 중인 닉네임입니다.");
-          return;
-        }
-      }
-    }
-
     if (!email) {
       alert("이메일을 입력해주세요");
       return;
@@ -75,19 +55,39 @@ const SignUp = () => {
       alert("닉네임을 입력해주세요");
       return;
     }
+    if (password !== confirmPassword) {
+      alert("비밀번호가 일치하지 않습니다.");
+      return;
+    }
 
-    const userData = {
-      email,
-      password,
-      userName,
+    const storedUserData = localStorage.getItem("user");
+    const userArray = storedUserData ? JSON.parse(storedUserData) : [];
+    console.log(userArray);
+
+    for (let i = 0; i < userArray.length; i++) {
+      const userData = userArray[i];
+
+      if (userData) {
+        if (userData.email === email) {
+          alert("이미 사용 중인 이메일입니다.");
+          return;
+        }
+        if (userData.userName === userName) {
+          alert("이미 사용 중인 닉네임입니다.");
+          return;
+        }
+      }
+    }
+
+    const newUserData = {
+      email: email,
+      password: password,
+      userName: userName,
     };
 
-    const numberOfLocalStorageKeys = localStorage.length;
+    userArray.push(newUserData);
 
-    localStorage.setItem(
-      `userData${numberOfLocalStorageKeys}`,
-      JSON.stringify(userData)
-    );
+    localStorage.setItem("user", JSON.stringify(userArray));
 
     alert("회원가입 완료!");
     navigate("/login");
