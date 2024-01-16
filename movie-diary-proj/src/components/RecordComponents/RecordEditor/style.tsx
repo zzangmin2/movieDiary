@@ -11,7 +11,6 @@ export const RecordEditor = styled.div`
     border: none;
     border-radius: 20px;
     box-sizing: border-box;
-
     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
       rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   }
@@ -45,6 +44,7 @@ export const RecordEditorTopSection = styled.section`
     margin-right: 50px;
   }
 `;
+
 export const InputWrapper = styled.div`
   font-size: 1.25rem;
   margin-right: 50px;

@@ -4,6 +4,7 @@ import { getLoginCookie } from "../utils/cookieUtils";
 import { useRouteError } from "react-router-dom";
 
 interface MoviePost {
+  idx: number;
   date: string;
   starRating: number;
   movie: {

@@ -7,6 +7,7 @@ import SignUp from "./pages/SignUp";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { checkLoginState } from "./redux/auth/authSlice";
+import Diary from "./pages/Diary";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ function App() {
           <Route path="/record" element={<Record />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/SignUp" element={<SignUp />} />
+          <Route path="/Diary/:id" element={<Diary />} />
         </Routes>
       </BrowserRouter>
     </div>

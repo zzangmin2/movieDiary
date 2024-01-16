@@ -45,7 +45,7 @@ const Header: React.FC<Props> = ({ title, userName, isHome }) => {
           </div>
           {userName}
         </S.MypageBtn>
-        <button onClick={handleLogout}>로그아웃</button>
+        {/* <button onClick={handleLogout}>로그아웃</button> */}
       </div>
     </S.Header>
   );

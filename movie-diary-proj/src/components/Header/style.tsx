@@ -9,6 +9,7 @@ export const Header = styled.div<HeaderProps>`
   margin-left: calc(-50vw + 50%);
   overflow-x: hidden;
   background-color: #2b3499;
+  font-size: 1rem;
 
   ${(props) =>
     props.isHome
@@ -19,8 +20,7 @@ export const Header = styled.div<HeaderProps>`
       : css`
           background-color: #fff;
           color: #2b3499;
-          box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
-            rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+          border-bottom: 1px solid #eee;
         `}
   & > div {
     width: 1200px;
@@ -28,7 +28,7 @@ export const Header = styled.div<HeaderProps>`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 30px 0px;
+    padding: 20px 0px 20px 0px;
   }
 `;
 

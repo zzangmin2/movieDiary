@@ -23,6 +23,7 @@ const MainList = () => {
         return (
           <div className="main-item-wrapper" key={e.movie.id}>
             <MainListItem
+              id={e.idx}
               title={e.movie.title}
               posterPath={e.movie.poster_path}
               releaseDate={e.date}

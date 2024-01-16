@@ -3,7 +3,10 @@ import * as S from "./style";
 import MovieSelectModal from "../MovieSelectModal";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/rootReducer";
-import { addMoviePost } from "../../../redux/moviePostSlice";
+import {
+  addMoviePost,
+  loadMoviePostsFromLocalStorage,
+} from "../../../redux/moviePostSlice";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
@@ -18,6 +21,7 @@ interface Movie {
 }
 
 interface NewPost {
+  idx: number;
   date: string;
   starRating: number;
   movie: {
@@ -39,9 +43,23 @@ const RecordEditor: React.FC<Props> = ({ userEmail }) => {
     poster_path: "",
     release_date: "",
   });
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadMoviePostsFromLocalStorage());
+  }, [dispatch]);
+
+  const moviePosts = useSelector(
+    (state: RootState) => state.moviePost.moviePosts
+  );
+
+  const moviePostIndex = moviePosts ? moviePosts.length + 1 : 1;
+  const user = useSelector((state: RootState) => state.auth.user);
+
   const [newPost, setNewPost] = useState<NewPost>({
+    idx: 0,
     date: "",
-    starRating: 0,
+    starRating: 5,
     movie: {
       id: selectedMovieInfo.id,
       title: selectedMovieInfo.title,
@@ -62,17 +80,16 @@ const RecordEditor: React.FC<Props> = ({ userEmail }) => {
   };
 
   useEffect(() => {
-    setNewPost({ ...newPost, movie: selectedMovieInfo });
+    setNewPost({
+      ...newPost,
+      idx: moviePostIndex,
+      movie: selectedMovieInfo,
+    });
   }, [selectedMovieInfo]);
 
   //에디터
-  const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.auth.user);
 
   const handleAddPost = () => {
-    console.log(selectedMovieInfo);
-    console.log(newPost);
-
     if (user) {
       dispatch(addMoviePost(newPost));
       console.log(user);
