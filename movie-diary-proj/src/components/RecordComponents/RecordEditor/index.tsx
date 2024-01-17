@@ -90,6 +90,20 @@ const RecordEditor: React.FC<Props> = ({ userEmail }) => {
   //에디터
 
   const handleAddPost = () => {
+    if (!newPost.date) {
+      alert("날짜를 입력해 주세요");
+      return;
+    }
+
+    if (!newPost.starRating) {
+      alert("평점을 입력해 주세요");
+      return;
+    }
+    if (!newPost.movieReview || newPost.movieReview.length < 5) {
+      alert("느낀점을 5자 이상으로 입력해 주세요");
+      return;
+    }
+
     if (user) {
       dispatch(addMoviePost(newPost));
       console.log(user);

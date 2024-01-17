@@ -16,8 +16,9 @@ interface AuthState {
 
 const Home = () => {
   const loggedInUserData = useSelector((state: RootState) => state.auth);
-
   const navigate = useNavigate();
+  const [postListSorting, setPostListSorting] =
+    useState<string>("recentWrited");
 
   useEffect(() => {
     if (
@@ -36,8 +37,8 @@ const Home = () => {
         userName={loggedInUserData.user?.userName || "로그인이 필요해"}
         isHome
       />
-      <MainOption />
-      <MainList />
+      <MainOption setPostListSorting={setPostListSorting} />
+      <MainList postListSorting={postListSorting} />
     </S.Home>
   );
 };

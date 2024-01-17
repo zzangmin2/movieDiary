@@ -6,7 +6,7 @@ export const MovieSelectModal = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 900px;
-  height: 80vh;
+  height: 600px;
   background-color: #fff;
   border-radius: 20px;
   padding: 30px 50px;
@@ -22,8 +22,7 @@ export const MovieSelectModal = styled.div`
 
   & > div > span {
     font-size: 2rem;
-    cursor=pointer;
-    
+    cursor: pointer;
   }
 
   & input {
@@ -46,24 +45,22 @@ export const DarkOverlay = styled.div`
 `;
 
 export const MovieList = styled.div`
-  width: 100%;
-  height: 50vh;
-  overflow-y: scroll;
-  overflow-x: hidden;
-
   & ul {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    height: 100%:
-    padding: 0;
+    justify-content: start;
+    height: 350px;
+    padding: 10px;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 
   & ul > li {
-    flex-grow: 1;
     width: 150px;
-    padding: 20px;
-    margin: 15px 10px 10px 10px;
+    padding: 10px;
+    margin-right: 7px;
+    margin-bottom: 10px;
     border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
       rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
@@ -71,16 +68,20 @@ export const MovieList = styled.div`
     list-style-type: none;
   }
 
+  & ul > li:nth-child(5n) {
+    margin-right: 0;
+  }
+
   & ul > li input[type="radio"] {
     appearance: none;
-    border: max(2px, 0.1em) solid gray;
+    border: 2px solid gray;
     border-radius: 50%;
-    width: 0.5em;
-    height: 0.5em;
+    width: 10px;
     cursor: pointer;
   }
 
   & ul > li input[type="radio"]:checked {
+    background-color: #ff6c22;
     border: 2px solid #ff6c22;
   }
 
@@ -116,7 +117,7 @@ export const MovieList = styled.div`
 export const Button = styled.button`
   float: right;
   padding: 0.75rem 1rem;
-  margin-top: 20px;
+
   background-color: #ff6c22;
   border: none;
   border-radius: 5px;

@@ -56,7 +56,7 @@ const MovieSelectModal: React.FC<Props> = ({
       <S.DarkOverlay onClick={closeModal} />
       <S.MovieSelectModal>
         <div>
-          <h1>영화선택하기</h1>
+          <h2>영화선택하기</h2>
           <span onClick={closeModal}>&times;</span>
         </div>
         <input
@@ -66,7 +66,6 @@ const MovieSelectModal: React.FC<Props> = ({
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyPress={handleOnKeyPress}
         />
-
         <S.MovieList>
           <ul>
             {movies.map((movie) => (

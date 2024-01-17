@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const RecordedMovieDiary = styled.div`
-  width: 65vw;
+  width: 950px;
 `;
 
 export const reviewDataWrapper = styled.div`

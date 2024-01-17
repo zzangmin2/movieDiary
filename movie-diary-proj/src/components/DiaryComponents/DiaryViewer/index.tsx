@@ -2,6 +2,7 @@ import React from "react";
 import * as S from "./style";
 import RecordedMovieInfo from "../RecordedMovieInfo";
 import RecordedMovieDiary from "../RecordedMovieDiary";
+import { useNavigate } from "react-router-dom";
 
 interface MoviePost {
   idx: number;
@@ -22,6 +23,7 @@ interface Props {
 }
 
 const DiaryViewer: React.FC<Props> = ({ data }) => {
+  const navigate = useNavigate();
   if (!data) {
     return null;
   } else {
@@ -29,9 +31,16 @@ const DiaryViewer: React.FC<Props> = ({ data }) => {
   }
   return (
     <>
-      <S.prevBtn> &lt; 이전으로</S.prevBtn>
+      <S.prevBtn
+        onClick={() => {
+          navigate(-1);
+        }}
+      >
+        {" "}
+        &lt; 이전으로
+      </S.prevBtn>
       <S.DiaryWrap>
-        <RecordedMovieInfo />
+        <RecordedMovieInfo movie={data.movie} />
         <RecordedMovieDiary
           date={data.date}
           starRating={data.starRating}

@@ -35,8 +35,12 @@ const Header: React.FC<Props> = ({ title, userName, isHome }) => {
   return (
     <S.Header isHome={isHome}>
       <div>
-        <S.Logo>
-          <Link to="/">MOViE</Link>
+        <S.Logo
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          MOVIEDIARY
         </S.Logo>
         <div>{title}</div>
         <S.MypageBtn>
