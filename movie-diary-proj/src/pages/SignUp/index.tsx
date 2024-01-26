@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import * as S from "./style";
 import { parse } from "path";
 import axios from "axios";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../../firebase";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -94,7 +96,7 @@ const SignUp = () => {
   //   navigate("/login");
   // }, [email, password, confirmPassword, userName, navigate]);
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     if (!email || !password || !confirmPassword || !userName) {
       alert("모든 필드를 입력해주세요.");
       return;
@@ -105,15 +107,28 @@ const SignUp = () => {
       return;
     }
 
-    axios
-      .post("http://localhost:4000/user", { email, password, userName })
-      .then((response) => {
-        alert("회원가입 완료!");
-        navigate("/login");
-      })
-      .catch((err) => {
-        console.error("회원가입 실패");
-      });
+    // axios
+    //   .post("http://localhost:4000/user", { email, password, userName })
+    //   .then((response) => {
+    //     alert("회원가입 완료!");
+    //     navigate("/login");
+    //   })
+    //   .catch((err) => {
+    //     console.error("회원가입 실패");
+    //   });
+
+    try {
+      const credentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      console.log(credentials.user);
+      await updateProfile(credentials.user, { displayName: userName });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

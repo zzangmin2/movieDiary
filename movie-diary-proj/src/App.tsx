@@ -6,7 +6,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { checkLoginState } from "./redux/auth/authSlice";
+import { checkLoginState } from "./redux/authSlice";
 import Diary from "./pages/Diary";
 
 function App() {

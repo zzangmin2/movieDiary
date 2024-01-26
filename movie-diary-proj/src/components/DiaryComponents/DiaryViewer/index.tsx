@@ -3,20 +3,7 @@ import * as S from "./style";
 import RecordedMovieInfo from "../RecordedMovieInfo";
 import RecordedMovieDiary from "../RecordedMovieDiary";
 import { useNavigate } from "react-router-dom";
-
-interface MoviePost {
-  idx: number;
-  date: string;
-  starRating: number;
-  movie: {
-    id: number;
-    title: string;
-    poster_path: string;
-    release_date: string;
-  };
-  movieReview: string;
-  userEmail: string;
-}
+import { MoviePost } from "../../../typings/db";
 
 interface Props {
   data: MoviePost | undefined;

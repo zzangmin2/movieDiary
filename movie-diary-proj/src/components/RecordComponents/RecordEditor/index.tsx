@@ -8,29 +8,12 @@ import {
   loadMoviePostsFromLocalStorage,
 } from "../../../redux/moviePostSlice";
 import { useNavigate } from "react-router-dom";
+import { Movie, MoviePost } from "../../../typings/db";
+import { ref } from "firebase/storage";
+import { auth, db, storage } from "../../../firebase";
+import { addDoc, collection } from "firebase/firestore";
 
 interface Props {
-  userEmail: string;
-}
-
-interface Movie {
-  id: number;
-  title: string;
-  poster_path: string;
-  release_date: string;
-}
-
-interface NewPost {
-  idx: number;
-  date: string;
-  starRating: number;
-  movie: {
-    id: number;
-    title: string;
-    poster_path: string;
-    release_date: string;
-  };
-  movieReview: string;
   userEmail: string;
 }
 
@@ -44,19 +27,19 @@ const RecordEditor: React.FC<Props> = ({ userEmail }) => {
     release_date: "",
   });
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(loadMoviePostsFromLocalStorage());
-  }, [dispatch]);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(loadMoviePostsFromLocalStorage());
+  // }, [dispatch]);
 
   const moviePosts = useSelector(
     (state: RootState) => state.moviePost.moviePosts
   );
 
   const moviePostIndex = moviePosts ? moviePosts.length + 1 : 1;
-  const user = useSelector((state: RootState) => state.auth.user);
+  // const user = useSelector((state: RootState) => state.auth.user);
 
-  const [newPost, setNewPost] = useState<NewPost>({
+  const [newPost, setNewPost] = useState<MoviePost>({
     idx: 0,
     date: "",
     starRating: 5,
@@ -68,6 +51,18 @@ const RecordEditor: React.FC<Props> = ({ userEmail }) => {
     },
     movieReview: "",
     userEmail: userEmail,
+  });
+
+  const [post, setPost] = useState({
+    date: "",
+    movieId: "",
+    moviePosterPath: "",
+    movieReleaseDate: "",
+    movieTitle: "",
+    postId: 0,
+    review: "",
+    starRating: 1,
+    user: "",
   });
   const navigate = useNavigate();
 
@@ -88,28 +83,50 @@ const RecordEditor: React.FC<Props> = ({ userEmail }) => {
   }, [selectedMovieInfo]);
 
   //에디터
+  const handleAddPost = async () => {
+    // if (!newPost.date) {
+    //   alert("날짜를 입력해 주세요");
+    //   return;
+    // }
 
-  const handleAddPost = () => {
-    if (!newPost.date) {
-      alert("날짜를 입력해 주세요");
-      return;
+    // if (!newPost.starRating) {
+    //   alert("평점을 입력해 주세요");
+    //   return;
+    // }
+    // if (!newPost.movieReview || newPost.movieReview.length < 5) {
+    //   alert("느낀점을 5자 이상으로 입력해 주세요");
+    //   return;
+    // }
+
+    setPost({
+      date: "2024-01-23",
+      movieId: "109526",
+      moviePosterPath: "/9djKSjGogao0ROefsa2YTeNy2w3.jpg",
+      movieReleaseDate: "1994-04-23",
+      movieTitle: "짱구는 못말려 극장판: 부리부리 왕국의 보물",
+      postId: 10,
+      review: "짱구야\n재밌다",
+      starRating: 1,
+      user: "1234",
+    });
+
+    const user = auth.currentUser;
+    if (!user) return;
+
+    try {
+      await addDoc(collection(db, "posts"), post);
+      console.log("성공!", post);
+    } catch (e) {
+      console.log(e);
+    } finally {
     }
 
-    if (!newPost.starRating) {
-      alert("평점을 입력해 주세요");
-      return;
-    }
-    if (!newPost.movieReview || newPost.movieReview.length < 5) {
-      alert("느낀점을 5자 이상으로 입력해 주세요");
-      return;
-    }
-
-    if (user) {
-      dispatch(addMoviePost(newPost));
-      console.log(user);
-      alert("저장 성공 !");
-      navigate("/");
-    }
+    // if (user) {
+    //   dispatch(addMoviePost(newPost));
+    //   console.log(user);
+    //   alert("저장 성공 !");
+    //   navigate("/");
+    // }
   };
 
   return (

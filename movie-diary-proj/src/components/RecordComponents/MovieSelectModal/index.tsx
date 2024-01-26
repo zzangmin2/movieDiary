@@ -1,17 +1,11 @@
 import axios from "axios";
 import * as S from "./style";
 import { useCallback, useEffect, useState } from "react";
+import { Movie } from "../../../typings/db";
 
 interface Props {
   closeModal: () => void;
   setSelectedMovieInfo: React.Dispatch<React.SetStateAction<Movie>>;
-}
-
-interface Movie {
-  id: number;
-  poster_path: string;
-  title: string;
-  release_date: string;
 }
 
 const MovieSelectModal: React.FC<Props> = ({

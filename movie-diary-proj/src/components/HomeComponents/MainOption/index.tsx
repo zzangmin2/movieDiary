@@ -7,23 +7,24 @@ import { RootState } from "../../../redux/rootReducer";
 
 interface Props {
   setPostListSorting: Dispatch<SetStateAction<string>>;
+  moviePosts: any[];
 }
-const MainOption: React.FC<Props> = ({ setPostListSorting }) => {
+const MainOption: React.FC<Props> = ({ setPostListSorting, moviePosts }) => {
   const navigate = useNavigate();
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(loadMoviePostsFromLocalStorage());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(loadMoviePostsFromLocalStorage());
+  // }, [dispatch]);
 
   const handleRecordButton = () => {
-    navigate("/record");
+    navigate(`/record`);
   };
 
-  const moviePosts = useSelector(
-    (state: RootState) => state.moviePost.moviePosts
-  );
+  // const moviePosts = useSelector(
+  //   (state: RootState) => state.moviePost.moviePosts
+  // );
 
   return (
     <S.MainOption>

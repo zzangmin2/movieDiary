@@ -7,20 +7,7 @@ import { RootState } from "../../redux/rootReducer";
 import DiaryViewer from "../../components/DiaryComponents/DiaryViewer";
 import { useNavigate, useParams } from "react-router-dom";
 import { loadMoviePostsFromLocalStorage } from "../../redux";
-
-interface MoviePost {
-  idx: number;
-  date: string;
-  starRating: number;
-  movie: {
-    id: number;
-    title: string;
-    poster_path: string;
-    release_date: string;
-  };
-  movieReview: string;
-  userEmail: string;
-}
+import { MoviePost } from "../../typings/db";
 
 const Diary = () => {
   const dispatch = useDispatch();
