@@ -4,6 +4,7 @@ const COOKIE_NAME = "user";
 
 export const setLoginCookie = (userData: object) => {
   Cookies.set(COOKIE_NAME, JSON.stringify(userData), { expires: 7 });
+  console.log(userData);
 };
 
 export const removeLoginCookie = () => {

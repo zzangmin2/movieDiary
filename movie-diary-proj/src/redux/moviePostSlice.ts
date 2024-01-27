@@ -2,20 +2,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getLoginCookie } from "../utils/cookieUtils";
 import { useRouteError } from "react-router-dom";
-
-interface MoviePost {
-  idx: number;
-  date: string;
-  starRating: number;
-  movie: {
-    id: number;
-    title: string;
-    poster_path: string;
-    release_date: string;
-  };
-  movieReview: string;
-  userEmail: string;
-}
+import axios from "axios";
+import { useEffect } from "react";
+import { MoviePost } from "../typings/db";
 
 interface MoviePostsState {
   moviePosts: MoviePost[];
@@ -61,15 +50,39 @@ const moviePostsSlice = createSlice({
         const userFromCookie = getLoginCookie();
         const userPosts = [];
         console.log(parsedPosts, userFromCookie);
-
         for (let i = 0; i < parsedPosts.length; i++) {
           if (parsedPosts[i].userEmail === userFromCookie.email) {
-            userPosts.push(parsedPosts[i]);
+            // userPosts.push(parsedPosst[i]);
           }
         }
-        state.moviePosts = userPosts;
       }
     },
+
+    // loadMoviePostsFromLocalStorage: (state) => {
+    //   axios
+    //     .get("http://localhost:4000/moviePost")
+    //     .then((response) => {
+    //       console.log(response.data);
+    //       state.moviePosts = response.data;
+    //     })
+    //     .catch((err) => {
+    //       console.error(err);
+    //     });
+    // },
+
+    // loadMoviePostsFromLocalStorage: (state) => {
+    //   const fetchMoviePosts = async () => {
+    //     try {
+    //       const response = await axios.get("http://localhost:4000/moviePost");
+    //       console.log(response.data);
+    //       state.moviePosts = response.data;
+    //     } catch (err) {
+    //       console.error("불러오기 실패", err);
+    //     }
+    //   };
+
+    //   fetchMoviePosts();
+    // },
   },
 });
 

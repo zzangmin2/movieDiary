@@ -1,35 +1,28 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
 import * as S from "./style";
 import { useDispatch } from "react-redux";
-import { logout } from "../../redux/auth/authSlice";
+import { logout } from "../../redux/authSlice";
+import { auth } from "../../firebase";
+import { getLoginCookie } from "../../utils/cookieUtils";
 
 interface Props {
   title: string;
-  userName?: string;
   isHome?: boolean;
 }
 
-const Header: React.FC<Props> = ({ title, userName, isHome }) => {
-  const dispatch = useDispatch();
+const Header: React.FC<Props> = ({ title, isHome }) => {
+  // const user = auth.currentUser;
   const navigate = useNavigate();
+  const cookieUser = getLoginCookie();
 
-  const handleLogout = () => {
-    const storedUserData = localStorage.getItem("user");
-    const userArray = storedUserData ? JSON.parse(storedUserData) : {};
-
-    for (let i = 0; i < userArray.length; i++) {
-      const userData = userArray[i];
-      if (userData.userName === userName) {
-        dispatch(logout());
-
-        alert("로그아웃!!");
-        navigate("/login");
-        return;
-      }
-    }
+  const handleLogout = async () => {
+    await auth.signOut();
+    alert("로그아웃!");
+    navigate("/login");
+    return;
   };
 
   return (
@@ -47,9 +40,12 @@ const Header: React.FC<Props> = ({ title, userName, isHome }) => {
           <div>
             <FontAwesomeIcon icon={faUser} />
           </div>
-          {userName}
+          {/* {user?.displayName} */}
+          {cookieUser && cookieUser.userName
+            ? cookieUser.userName
+            : "로그인해줘"}
         </S.MypageBtn>
-        {/* <button onClick={handleLogout}>로그아웃</button> */}
+        <button onClick={handleLogout}>로그아웃</button>
       </div>
     </S.Header>
   );

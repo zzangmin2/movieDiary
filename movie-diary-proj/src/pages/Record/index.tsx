@@ -9,10 +9,7 @@ const Record = () => {
 
   return (
     <S.Record>
-      <Header
-        title={"본 영화 기록하기"}
-        userName={loggedInUserData.user?.userName || "로그인이 필요해"}
-      ></Header>
+      <Header title={"본 영화 기록하기"}></Header>
       <RecordEditor
         userEmail={loggedInUserData.user?.email || "로그인이 필요해"}
       />

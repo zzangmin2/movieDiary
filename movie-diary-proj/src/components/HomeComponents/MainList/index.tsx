@@ -6,6 +6,10 @@ import { RootState } from "../../../redux/rootReducer";
 import { loadMoviePostsFromLocalStorage } from "../../../redux/moviePostSlice";
 import * as S from "./style";
 import axios from "axios";
+import { Unsubscribe } from "firebase/auth";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { db } from "../../../firebase";
+import { IPost } from "../../../typings/db";
 
 interface Props {
   postListSorting: string;
@@ -13,30 +17,36 @@ interface Props {
 }
 
 const MainList: React.FC<Props> = ({ postListSorting, moviePosts }) => {
-  const dispatch = useDispatch();
-  // const [moviePosts, setMoviePosts] = useState<any[]>([]);
+  const [post, setPost] = useState<IPost[]>([]);
 
-  // useEffect(() => {
-  //   dispatch(loadMoviePostsFromLocalStorage());
-  // }, [dispatch]);
+  useEffect(() => {
+    // let unsubscribe: Unsubscribe | null = null;
+    const fetchPostData = async () => {
+      const PostDataQuery = query(
+        collection(db, "posts"),
+        orderBy("date", "desc")
+      );
+      const snapshot = await getDocs(PostDataQuery);
+      const posts = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          date: data.date,
+          movieId: data.movieId,
+          moviePosterPath: data.moviePosterPath,
+          movieReleaseDate: data.movieReleaseDate,
+          movieTitle: data.movieTitle,
+          postId: data.postId,
+          review: data.review,
+          starRating: data.starRating,
+          user: data.user,
+        };
+      });
 
-  // const moviePost = useSelector(
-  //   (state: RootState) => state.moviePost.moviePosts
-  // );
-
-  // useEffect(() => {
-  //   const fetchMoviePosts = async () => {
-  //     try {
-  //       const response = await axios.get("http://localhost:4000/moviePost");
-  //       setMoviePosts(response.data);
-  //       console.log(response.data);
-  //     } catch (err) {
-  //       console.error("불러오기 실패", err);
-  //     }
-  //   };
-
-  //   fetchMoviePosts();
-  // }, []);
+      setPost(posts);
+      console.log(posts);
+    };
+    fetchPostData();
+  }, []);
 
   const getProcessedPostList = () => {
     console.log(moviePosts);
@@ -63,7 +73,7 @@ const MainList: React.FC<Props> = ({ postListSorting, moviePosts }) => {
 
   return (
     <S.MainList>
-      {getProcessedPostList().map((e: any) => {
+      {/* {getProcessedPostList().map((e: any) => {
         return (
           <S.MainListItemWrapper key={e.movie.id}>
             <MainListItem
@@ -72,6 +82,24 @@ const MainList: React.FC<Props> = ({ postListSorting, moviePosts }) => {
               posterPath={e.movie.poster_path}
               releaseDate={e.date}
               score={e.starRating}
+            />
+          </S.MainListItemWrapper>
+        );
+      })} */}
+
+      {post.map((e: any) => {
+        return (
+          <S.MainListItemWrapper key={e.postId}>
+            <MainListItem
+              postId={e.postId}
+              movieTitle={e.movieTitle}
+              moviePosterPath={e.moviePosterPath}
+              movieReleaseDate={e.movieReleaseDate}
+              starRating={e.starRating}
+              date={""}
+              movieId={""}
+              review={""}
+              user={""}
             />
           </S.MainListItemWrapper>
         );

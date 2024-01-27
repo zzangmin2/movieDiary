@@ -32,3 +32,15 @@ export interface User {
   password: string;
   userName: string;
 }
+
+export interface IPost {
+  date: string;
+  movieId: string;
+  moviePosterPath: string;
+  movieReleaseDate: string;
+  movieTitle: string;
+  postId: number;
+  review: string;
+  starRating: number;
+  user: string;
+}

@@ -27,17 +27,11 @@ const RecordEditor: React.FC<Props> = ({ userEmail }) => {
     release_date: "",
   });
 
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(loadMoviePostsFromLocalStorage());
-  // }, [dispatch]);
-
   const moviePosts = useSelector(
     (state: RootState) => state.moviePost.moviePosts
   );
 
   const moviePostIndex = moviePosts ? moviePosts.length + 1 : 1;
-  // const user = useSelector((state: RootState) => state.auth.user);
 
   const [newPost, setNewPost] = useState<MoviePost>({
     idx: 0,
@@ -84,20 +78,6 @@ const RecordEditor: React.FC<Props> = ({ userEmail }) => {
 
   //에디터
   const handleAddPost = async () => {
-    // if (!newPost.date) {
-    //   alert("날짜를 입력해 주세요");
-    //   return;
-    // }
-
-    // if (!newPost.starRating) {
-    //   alert("평점을 입력해 주세요");
-    //   return;
-    // }
-    // if (!newPost.movieReview || newPost.movieReview.length < 5) {
-    //   alert("느낀점을 5자 이상으로 입력해 주세요");
-    //   return;
-    // }
-
     setPost({
       date: "2024-01-23",
       movieId: "109526",
@@ -120,13 +100,6 @@ const RecordEditor: React.FC<Props> = ({ userEmail }) => {
       console.log(e);
     } finally {
     }
-
-    // if (user) {
-    //   dispatch(addMoviePost(newPost));
-    //   console.log(user);
-    //   alert("저장 성공 !");
-    //   navigate("/");
-    // }
   };
 
   return (

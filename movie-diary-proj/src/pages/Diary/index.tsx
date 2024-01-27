@@ -16,7 +16,6 @@ const Diary = () => {
     dispatch(loadMoviePostsFromLocalStorage());
   }, [dispatch]);
 
-  const loggedInUserData = useSelector((state: RootState) => state.auth);
   const moviePosts = useSelector(
     (state: RootState) => state.moviePost.moviePosts
   );
@@ -41,10 +40,7 @@ const Diary = () => {
 
   return (
     <S.Diary>
-      <Header
-        title={"기록 상세페이지"}
-        userName={loggedInUserData.user?.userName || "로그인이 필요해"}
-      ></Header>
+      <Header title={"기록 상세페이지"}></Header>
       <DiaryViewer data={data} />
     </S.Diary>
   );
