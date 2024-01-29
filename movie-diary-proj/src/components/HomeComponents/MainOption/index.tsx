@@ -2,8 +2,6 @@ import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as S from "./style";
 import { useDispatch, useSelector } from "react-redux";
-import { loadMoviePostsFromLocalStorage } from "../../../redux";
-import { RootState } from "../../../redux/rootReducer";
 
 interface Props {
   setPostListSorting: Dispatch<SetStateAction<string>>;

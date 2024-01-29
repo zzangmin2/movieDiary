@@ -3,7 +3,6 @@ import Header from "../../components/Header";
 import * as S from "./style";
 
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/rootReducer";
 import DiaryViewer from "../../components/DiaryComponents/DiaryViewer";
 import { useNavigate, useParams } from "react-router-dom";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";

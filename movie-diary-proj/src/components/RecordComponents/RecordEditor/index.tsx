@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as S from "./style";
 import MovieSelectModal from "../MovieSelectModal";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../redux/rootReducer";
-import {
-  addMoviePost,
-  loadMoviePostsFromLocalStorage,
-} from "../../../redux/moviePostSlice";
+
 import { useNavigate } from "react-router-dom";
 import { Movie, MoviePost } from "../../../typings/db";
 import { ref } from "firebase/storage";
@@ -21,11 +17,7 @@ import {
 } from "firebase/firestore";
 import { getLoginCookie } from "../../../utils/cookieUtils";
 
-interface Props {
-  userEmail: string;
-}
-
-const RecordEditor: React.FC<Props> = ({ userEmail }) => {
+const RecordEditor: React.FC = () => {
   const user = auth.currentUser;
 
   //모달
