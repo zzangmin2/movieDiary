@@ -3,10 +3,10 @@ import * as S from "./style";
 import RecordedMovieInfo from "../RecordedMovieInfo";
 import RecordedMovieDiary from "../RecordedMovieDiary";
 import { useNavigate } from "react-router-dom";
-import { MoviePost } from "../../../typings/db";
+import { IPost, MoviePost } from "../../../typings/db";
 
 interface Props {
-  data: MoviePost | undefined;
+  data: IPost | undefined;
 }
 
 const DiaryViewer: React.FC<Props> = ({ data }) => {
@@ -23,15 +23,21 @@ const DiaryViewer: React.FC<Props> = ({ data }) => {
           navigate(-1);
         }}
       >
-        {" "}
         &lt; 이전으로
       </S.prevBtn>
       <S.DiaryWrap>
-        <RecordedMovieInfo movie={data.movie} />
+        <RecordedMovieInfo
+          movie={{
+            movieId: data.movieId,
+            moviePosterPath: data.moviePosterPath,
+            movieReleaseDate: data.movieReleaseDate,
+            movieTitle: data.movieTitle,
+          }}
+        />
         <RecordedMovieDiary
           date={data.date}
           starRating={data.starRating}
-          movieReview={data.movieReview}
+          movieReview={data.review}
         />
       </S.DiaryWrap>
     </>

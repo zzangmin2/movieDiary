@@ -3,8 +3,6 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
 import * as S from "./style";
-import { useDispatch } from "react-redux";
-import { logout } from "../../redux/authSlice";
 import { auth } from "../../firebase";
 import { getLoginCookie } from "../../utils/cookieUtils";
 
@@ -14,7 +12,6 @@ interface Props {
 }
 
 const Header: React.FC<Props> = ({ title, isHome }) => {
-  // const user = auth.currentUser;
   const navigate = useNavigate();
   const cookieUser = getLoginCookie();
 
@@ -40,7 +37,6 @@ const Header: React.FC<Props> = ({ title, isHome }) => {
           <div>
             <FontAwesomeIcon icon={faUser} />
           </div>
-          {/* {user?.displayName} */}
           {cookieUser && cookieUser.userName
             ? cookieUser.userName
             : "로그인해줘"}

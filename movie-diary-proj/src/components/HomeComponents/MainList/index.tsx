@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
 import MainListItem from "../MainListItem";
-import { dummy } from "../../../movieDummy";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../redux/rootReducer";
-import { loadMoviePostsFromLocalStorage } from "../../../redux/moviePostSlice";
 import * as S from "./style";
-import axios from "axios";
-import { Unsubscribe } from "firebase/auth";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
-import { auth, db } from "../../../firebase";
+import { db } from "../../../firebase";
 import { IPost } from "../../../typings/db";
 import { getLoginCookie } from "../../../utils/cookieUtils";
 
@@ -23,7 +17,6 @@ const MainList: React.FC<Props> = ({ postListSorting, moviePosts }) => {
   const [post, setPost] = useState<IPost[]>([]);
 
   useEffect(() => {
-    // let unsubscribe: Unsubscribe | null = null;
     const fetchPostData = async () => {
       if (cookieUser) {
         const PostDataQuery = query(
@@ -33,26 +26,24 @@ const MainList: React.FC<Props> = ({ postListSorting, moviePosts }) => {
         );
 
         try {
-          if (PostDataQuery) {
-            const snapshot = await getDocs(PostDataQuery);
-            const posts = snapshot.docs.map((doc) => {
-              const data = doc.data();
-              return {
-                date: data.date,
-                movieId: data.movieId,
-                moviePosterPath: data.moviePosterPath,
-                movieReleaseDate: data.movieReleaseDate,
-                movieTitle: data.movieTitle,
-                postId: data.postId,
-                review: data.review,
-                starRating: data.starRating,
-                user: data.user,
-              };
-            });
+          const snapshot = await getDocs(PostDataQuery);
+          const posts = snapshot.docs.map((doc) => {
+            const data = doc.data();
+            return {
+              date: data.date,
+              movieId: data.movieId,
+              moviePosterPath: data.moviePosterPath,
+              movieReleaseDate: data.movieReleaseDate,
+              movieTitle: data.movieTitle,
+              postId: data.postId,
+              review: data.review,
+              starRating: data.starRating,
+              user: data.user,
+            };
+          });
 
-            setPost(posts);
-            console.log(posts);
-          }
+          setPost(posts);
+          console.log(posts);
         } catch (e) {
           console.log(e);
         }
