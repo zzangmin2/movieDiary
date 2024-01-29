@@ -7,9 +7,10 @@ import { loadMoviePostsFromLocalStorage } from "../../../redux/moviePostSlice";
 import * as S from "./style";
 import axios from "axios";
 import { Unsubscribe } from "firebase/auth";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { db } from "../../../firebase";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { auth, db } from "../../../firebase";
 import { IPost } from "../../../typings/db";
+import { getLoginCookie } from "../../../utils/cookieUtils";
 
 interface Props {
   postListSorting: string;
@@ -17,34 +18,47 @@ interface Props {
 }
 
 const MainList: React.FC<Props> = ({ postListSorting, moviePosts }) => {
+  const cookieUser = getLoginCookie();
+
   const [post, setPost] = useState<IPost[]>([]);
 
   useEffect(() => {
     // let unsubscribe: Unsubscribe | null = null;
     const fetchPostData = async () => {
-      const PostDataQuery = query(
-        collection(db, "posts"),
-        orderBy("date", "desc")
-      );
-      const snapshot = await getDocs(PostDataQuery);
-      const posts = snapshot.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          date: data.date,
-          movieId: data.movieId,
-          moviePosterPath: data.moviePosterPath,
-          movieReleaseDate: data.movieReleaseDate,
-          movieTitle: data.movieTitle,
-          postId: data.postId,
-          review: data.review,
-          starRating: data.starRating,
-          user: data.user,
-        };
-      });
+      if (cookieUser) {
+        const PostDataQuery = query(
+          collection(db, "posts"),
+          where("user", "==", cookieUser?.email),
+          orderBy("date", "desc")
+        );
 
-      setPost(posts);
-      console.log(posts);
+        try {
+          if (PostDataQuery) {
+            const snapshot = await getDocs(PostDataQuery);
+            const posts = snapshot.docs.map((doc) => {
+              const data = doc.data();
+              return {
+                date: data.date,
+                movieId: data.movieId,
+                moviePosterPath: data.moviePosterPath,
+                movieReleaseDate: data.movieReleaseDate,
+                movieTitle: data.movieTitle,
+                postId: data.postId,
+                review: data.review,
+                starRating: data.starRating,
+                user: data.user,
+              };
+            });
+
+            setPost(posts);
+            console.log(posts);
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      }
     };
+
     fetchPostData();
   }, []);
 
@@ -87,23 +101,27 @@ const MainList: React.FC<Props> = ({ postListSorting, moviePosts }) => {
         );
       })} */}
 
-      {post.map((e: any) => {
-        return (
-          <S.MainListItemWrapper key={e.postId}>
-            <MainListItem
-              postId={e.postId}
-              movieTitle={e.movieTitle}
-              moviePosterPath={e.moviePosterPath}
-              movieReleaseDate={e.movieReleaseDate}
-              starRating={e.starRating}
-              date={""}
-              movieId={""}
-              review={""}
-              user={""}
-            />
-          </S.MainListItemWrapper>
-        );
-      })}
+      {post ? (
+        post.map((e: any) => {
+          return (
+            <S.MainListItemWrapper key={e.postId}>
+              <MainListItem
+                postId={e.postId}
+                movieTitle={e.movieTitle}
+                moviePosterPath={e.moviePosterPath}
+                movieReleaseDate={e.movieReleaseDate}
+                starRating={e.starRating}
+                date={""}
+                movieId={""}
+                review={""}
+                user={""}
+              />
+            </S.MainListItemWrapper>
+          );
+        })
+      ) : (
+        <div>아직 작성한 게시물이 없습니다.</div>
+      )}
     </S.MainList>
   );
 };
