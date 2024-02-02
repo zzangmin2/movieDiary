@@ -1,11 +1,11 @@
 import axios from "axios";
 import * as S from "./style";
 import { useCallback, useEffect, useState } from "react";
-import { Movie } from "../../../typings/db";
+import { IMovie } from "../../../typings/db";
 
 interface Props {
   closeModal: () => void;
-  setSelectedMovieInfo: React.Dispatch<React.SetStateAction<Movie>>;
+  setSelectedMovieInfo: React.Dispatch<React.SetStateAction<IMovie>>;
 }
 
 const MovieSelectModal: React.FC<Props> = ({
@@ -13,8 +13,8 @@ const MovieSelectModal: React.FC<Props> = ({
   setSelectedMovieInfo,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [selectedMovie, setSelectedMovie] = useState<Movie>();
+  const [movies, setMovies] = useState<IMovie[]>([]);
+  const [selectedMovie, setSelectedMovie] = useState<IMovie>();
 
   const apiKey = "8a30d757cc508b84e1bb016450c77af9";
 
@@ -24,10 +24,11 @@ const MovieSelectModal: React.FC<Props> = ({
         `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&include_adult=true&language=ko-KR&page=1&api_key=${apiKey}`
       )
       .then((response) => {
-        console.log("성공!");
+        console.log("성공! 축하해~성공이라니~");
         setMovies(response.data.results);
       })
       .catch((error) => {
+        console.log(`이거 문제야 ${error}`);
         console.log(error);
       });
   };

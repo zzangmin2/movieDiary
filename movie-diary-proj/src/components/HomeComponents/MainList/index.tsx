@@ -8,10 +8,9 @@ import { getLoginCookie } from "../../../utils/cookieUtils";
 
 interface Props {
   postListSorting: string;
-  moviePosts: any[];
 }
 
-const MainList: React.FC<Props> = ({ postListSorting, moviePosts }) => {
+const MainList: React.FC<Props> = ({ postListSorting }) => {
   const cookieUser = getLoginCookie();
 
   const [post, setPost] = useState<IPost[]>([]);
@@ -21,8 +20,8 @@ const MainList: React.FC<Props> = ({ postListSorting, moviePosts }) => {
       if (cookieUser) {
         const PostDataQuery = query(
           collection(db, "posts"),
-          where("user", "==", cookieUser?.email),
-          orderBy("date", "desc")
+          where("user", "==", cookieUser?.email)
+          // orderBy("postId", "desc")
         );
 
         try {
@@ -30,6 +29,7 @@ const MainList: React.FC<Props> = ({ postListSorting, moviePosts }) => {
           const posts = snapshot.docs.map((doc) => {
             const data = doc.data();
             return {
+              id: doc.id,
               date: data.date,
               movieId: data.movieId,
               moviePosterPath: data.moviePosterPath,
@@ -54,25 +54,25 @@ const MainList: React.FC<Props> = ({ postListSorting, moviePosts }) => {
   }, []);
 
   const getProcessedPostList = () => {
-    console.log(moviePosts);
-    const copyMoviePosts = JSON.parse(JSON.stringify(moviePosts));
+    console.log(post);
+    const copypost = JSON.parse(JSON.stringify(post));
     switch (postListSorting) {
       case "recentWrited":
-        return copyMoviePosts.sort((a: any, b: any) => a.idx - b.idx);
+        return copypost.sort((a: any, b: any) => a.postId - b.postId);
       case "oldWrited":
-        return copyMoviePosts.sort((a: any, b: any) => b.idx - a.idx);
+        return copypost.sort((a: any, b: any) => b.postId - a.postId);
       case "recentWatched":
-        return copyMoviePosts.sort(
+        return copypost.sort(
           (a: any, b: any) =>
             new Date(b.date).getTime() - new Date(a.date).getTime()
         );
       case "oldWatched":
-        return copyMoviePosts.sort(
+        return copypost.sort(
           (a: any, b: any) =>
             new Date(a.date).getTime() - new Date(b.date).getTime()
         );
       default:
-        return copyMoviePosts;
+        return copypost;
     }
   };
 
@@ -93,16 +93,17 @@ const MainList: React.FC<Props> = ({ postListSorting, moviePosts }) => {
       })} */}
 
       {post ? (
-        post.map((e: any) => {
+        getProcessedPostList().map((e: any) => {
           return (
             <S.MainListItemWrapper key={e.postId}>
               <MainListItem
+                id={e.id}
                 postId={e.postId}
                 movieTitle={e.movieTitle}
                 moviePosterPath={e.moviePosterPath}
                 movieReleaseDate={e.movieReleaseDate}
                 starRating={e.starRating}
-                date={""}
+                date={e.date}
                 movieId={""}
                 review={""}
                 user={""}

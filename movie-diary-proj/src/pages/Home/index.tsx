@@ -12,7 +12,6 @@ const Home = () => {
   const navigate = useNavigate();
   const [postListSorting, setPostListSorting] =
     useState<string>("recentWrited");
-  const [moviePosts, setMoviePosts] = useState<any[]>([]);
 
   useEffect(() => {
     const cookieUser = getLoginCookie();
@@ -24,12 +23,9 @@ const Home = () => {
 
   return (
     <S.Home>
-      <Header title={"나의 영화"} isHome />
-      <MainOption
-        setPostListSorting={setPostListSorting}
-        moviePosts={moviePosts}
-      />
-      <MainList postListSorting={postListSorting} moviePosts={moviePosts} />
+      <Header title={"나의 영화"} isHome={true} />
+      <MainOption setPostListSorting={setPostListSorting} />
+      <MainList postListSorting={postListSorting} />
     </S.Home>
   );
 };

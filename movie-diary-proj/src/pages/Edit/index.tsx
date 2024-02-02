@@ -2,18 +2,17 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import * as S from "./style";
 
-import DiaryViewer from "../../components/DiaryComponents/DiaryViewer";
 import { useNavigate, useParams } from "react-router-dom";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { IPost } from "../../typings/db";
 import { getLoginCookie } from "../../utils/cookieUtils";
 import { db } from "../../firebase";
 import { match } from "assert";
+import RecordEditor from "../../components/RecordComponents/RecordEditor";
 
-const Diary = () => {
-  const navigate = useNavigate();
-  const cookieUser = getLoginCookie();
+const Edit = () => {
   const { id } = useParams();
+  const cookieUser = getLoginCookie();
   const [data, setData] = useState<IPost>();
 
   useEffect(() => {
@@ -61,13 +60,12 @@ const Diary = () => {
 
     fetchPostData();
   }, []);
-
   return (
-    <S.Diary>
-      <Header title={"기록 상세페이지"}></Header>
-      <DiaryViewer data={data} />
-    </S.Diary>
+    <S.Edit>
+      <Header title="게시물 수정" />
+      <RecordEditor />
+    </S.Edit>
   );
 };
 
-export default Diary;
+export default Edit;

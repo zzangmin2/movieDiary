@@ -3,13 +3,14 @@ import * as S from "./style";
 import RecordedMovieInfo from "../RecordedMovieInfo";
 import RecordedMovieDiary from "../RecordedMovieDiary";
 import { useNavigate } from "react-router-dom";
-import { IPost, MoviePost } from "../../../typings/db";
+import { IPost } from "../../../typings/db";
 
 interface Props {
   data: IPost | undefined;
 }
 
 const DiaryViewer: React.FC<Props> = ({ data }) => {
+  console.log(data);
   const navigate = useNavigate();
   if (!data) {
     return null;
@@ -35,6 +36,8 @@ const DiaryViewer: React.FC<Props> = ({ data }) => {
           }}
         />
         <RecordedMovieDiary
+          id={data.id}
+          postId={data.postId}
           date={data.date}
           starRating={data.starRating}
           movieReview={data.review}

@@ -7,6 +7,7 @@ import SignUp from "./pages/SignUp";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import Diary from "./pages/Diary";
+import Edit from "./pages/Edit";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/Diary/:id" element={<Diary />} />
+          <Route path="/Edit/:id" element={<Edit />} />
         </Routes>
       </BrowserRouter>
     </div>

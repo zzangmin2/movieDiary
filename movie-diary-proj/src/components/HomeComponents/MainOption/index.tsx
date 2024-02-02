@@ -1,28 +1,61 @@
-import React, { Dispatch, SetStateAction, useEffect } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as S from "./style";
-import { useDispatch, useSelector } from "react-redux";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { db } from "../../../firebase";
+import { IPost } from "../../../typings/db";
+import { getLoginCookie } from "../../../utils/cookieUtils";
 
 interface Props {
   setPostListSorting: Dispatch<SetStateAction<string>>;
-  moviePosts: any[];
 }
-const MainOption: React.FC<Props> = ({ setPostListSorting, moviePosts }) => {
+const MainOption: React.FC<Props> = ({ setPostListSorting }) => {
   const navigate = useNavigate();
+  const cookieUser = getLoginCookie();
 
-  // const dispatch = useDispatch();
+  const [post, setPost] = useState<IPost[]>([]);
 
-  // useEffect(() => {
-  //   dispatch(loadMoviePostsFromLocalStorage());
-  // }, [dispatch]);
+  useEffect(() => {
+    const fetchPostData = async () => {
+      if (cookieUser) {
+        const PostDataQuery = query(
+          collection(db, "posts"),
+          where("user", "==", cookieUser?.email),
+          orderBy("date", "desc")
+        );
+
+        try {
+          const snapshot = await getDocs(PostDataQuery);
+          const posts = snapshot.docs.map((doc) => {
+            const data = doc.data();
+            return {
+              id: doc.id,
+              date: data.date,
+              movieId: data.movieId,
+              moviePosterPath: data.moviePosterPath,
+              movieReleaseDate: data.movieReleaseDate,
+              movieTitle: data.movieTitle,
+              postId: data.postId,
+              review: data.review,
+              starRating: data.starRating,
+              user: data.user,
+            };
+          });
+
+          setPost(posts);
+          console.log(posts);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    };
+
+    fetchPostData();
+  }, []);
 
   const handleRecordButton = () => {
     navigate(`/record`);
   };
-
-  // const moviePosts = useSelector(
-  //   (state: RootState) => state.moviePost.moviePosts
-  // );
 
   return (
     <S.MainOption>
@@ -36,7 +69,7 @@ const MainOption: React.FC<Props> = ({ setPostListSorting, moviePosts }) => {
             <option value="oldWatched"> 오래된 시청 순</option>
           </S.Filter>
           <S.MovieCountText>
-            {`총 ${moviePosts.length}개의 영화 기록이 있습니다.`}
+            {`총 ${post.length}개의 영화 기록이 있습니다.`}
           </S.MovieCountText>
         </div>
         <S.RecordBtn onClick={handleRecordButton}>본 영화 기록하기</S.RecordBtn>

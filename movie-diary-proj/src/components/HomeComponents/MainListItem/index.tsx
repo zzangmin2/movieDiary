@@ -9,7 +9,7 @@ const MainListItem: React.FC<IPost> = ({
   postId,
   movieTitle,
   moviePosterPath,
-  movieReleaseDate,
+  date,
   starRating,
 }) => {
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ const MainListItem: React.FC<IPost> = ({
           <img src={IMG_BASE_URL + moviePosterPath} alt="영화포스터" />
         </S.ItemMovieImg>
         <S.ItemMovieInfo>
-          <div>{movieReleaseDate}</div>
+          <div>{date}</div>
           <div>{movieTitle}</div>
           <div>{renderStars(starRating)}</div>
         </S.ItemMovieInfo>

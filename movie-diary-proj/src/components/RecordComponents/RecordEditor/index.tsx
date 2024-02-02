@@ -4,7 +4,7 @@ import MovieSelectModal from "../MovieSelectModal";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
-import { Movie, MoviePost } from "../../../typings/db";
+import { IMovie } from "../../../typings/db";
 import { ref } from "firebase/storage";
 import { auth, db, storage } from "../../../firebase";
 import {
@@ -22,7 +22,7 @@ const RecordEditor: React.FC = () => {
 
   //모달
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedMovieInfo, setSelectedMovieInfo] = useState<Movie>({
+  const [selectedMovieInfo, setSelectedMovieInfo] = useState<IMovie>({
     id: 0,
     title: "",
     poster_path: "",
@@ -38,7 +38,7 @@ const RecordEditor: React.FC = () => {
     movieTitle: "",
     postId: 0,
     review: "",
-    starRating: 1,
+    starRating: 5,
     user: cookieUser.email,
   });
   const navigate = useNavigate();
@@ -49,6 +49,7 @@ const RecordEditor: React.FC = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
   useEffect(() => {
     const fetchPostData = async () => {
       if (user?.email) {
