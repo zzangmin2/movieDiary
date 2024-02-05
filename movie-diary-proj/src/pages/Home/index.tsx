@@ -23,7 +23,7 @@ const Home = () => {
 
   return (
     <S.Home>
-      <Header title={"나의 영화"} isHome={true} />
+      <Header title={"나의 영화"} ishome={true} />
       <MainOption setPostListSorting={setPostListSorting} />
       <MainList postListSorting={postListSorting} />
     </S.Home>

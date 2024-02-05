@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 interface HeaderProps {
-  isHome?: boolean;
+  ishome?: boolean;
 }
 
 export const Header = styled.div<HeaderProps>`
@@ -12,7 +12,7 @@ export const Header = styled.div<HeaderProps>`
   font-size: 1rem;
 
   ${(props) =>
-    props.isHome
+    props.ishome
       ? css`
           background-color: #2b3499;
           color: #fff;

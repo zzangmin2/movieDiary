@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as S from "./style";
 import MovieSelectModal from "../MovieSelectModal";
 import { useDispatch, useSelector } from "react-redux";
-
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { IMovie } from "../../../typings/db";
 import { ref } from "firebase/storage";
@@ -10,15 +10,22 @@ import { auth, db, storage } from "../../../firebase";
 import {
   addDoc,
   collection,
+  doc,
   getDocs,
   orderBy,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { getLoginCookie } from "../../../utils/cookieUtils";
+import { match } from "assert";
 
-const RecordEditor: React.FC = () => {
+interface Props {
+  pageType: string;
+}
+const RecordEditor: React.FC<Props> = ({ pageType }) => {
   const user = auth.currentUser;
+  const { id } = useParams();
 
   //모달
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,6 +38,7 @@ const RecordEditor: React.FC = () => {
 
   const cookieUser = getLoginCookie();
   const [post, setPost] = useState({
+    id: "",
     date: "",
     movieId: 0,
     moviePosterPath: "",
@@ -63,9 +71,10 @@ const RecordEditor: React.FC = () => {
           if (PostDataQuery) {
             const snapshot = await getDocs(PostDataQuery);
             console.log(snapshot);
-            const posts = snapshot.docs.map(function (doc) {
+            const posts = snapshot.docs.map((doc) => {
               const data = doc.data();
               return {
+                id: doc.id,
                 date: data.date,
                 movieId: data.movieId,
                 moviePosterPath: data.moviePosterPath,
@@ -78,10 +87,29 @@ const RecordEditor: React.FC = () => {
               };
             });
 
-            setPost({
-              ...post,
-              postId: posts.length + 1,
-            });
+            if (pageType === "record") {
+              setPost({
+                ...post,
+                postId: posts.length + 1,
+              });
+            } else if (pageType === "edit") {
+              const matchingPost = posts.find(
+                (e) => e.postId === (id ? parseInt(id) : undefined)
+              );
+
+              console.log(matchingPost);
+              if (matchingPost) {
+                setPost(matchingPost);
+                setSelectedMovieInfo({
+                  id: matchingPost.movieId,
+                  poster_path: matchingPost.moviePosterPath,
+                  release_date: matchingPost.movieReleaseDate,
+                  title: matchingPost.movieTitle,
+                });
+              } else {
+                console.log("일치하는 데이터를 못 찾음");
+              }
+            }
           }
         } catch (e) {
           console.log(e);
@@ -90,7 +118,7 @@ const RecordEditor: React.FC = () => {
     };
 
     fetchPostData();
-  }, [post, user]);
+  }, []);
 
   useEffect(() => {
     setPost({
@@ -106,13 +134,32 @@ const RecordEditor: React.FC = () => {
   const handleAddPost = async () => {
     if (!user) return;
 
-    try {
-      await addDoc(collection(db, "posts"), post);
-      console.log("성공!", post);
-      navigate("/");
-    } catch (e) {
-      console.log(e);
-    } finally {
+    if (pageType === "record") {
+      try {
+        await addDoc(collection(db, "posts"), post);
+        console.log("성공!", post);
+        navigate("/");
+      } catch (e) {
+        console.log(e);
+      }
+    } else if (pageType === "edit") {
+      try {
+        await updateDoc(doc(db, "posts", post.id), {
+          date: post.date,
+          movieId: post.movieId,
+          moviePosterPath: post.moviePosterPath,
+          movieReleaseDate: post.movieReleaseDate,
+          movieTitle: post.movieTitle,
+          postId: post.postId,
+          review: post.review,
+          starRating: post.starRating,
+          user: post.user,
+        });
+        console.log("성공!", post);
+        navigate("/");
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
@@ -125,6 +172,7 @@ const RecordEditor: React.FC = () => {
             <input
               type="date"
               onChange={(e) => setPost({ ...post, date: e.target.value })}
+              value={post.date}
             ></input>
           </S.InputWrapper>
           <S.InputWrapper>
@@ -134,6 +182,7 @@ const RecordEditor: React.FC = () => {
                 onChange={(e) =>
                   setPost({ ...post, starRating: +e.target.value })
                 }
+                value={post.starRating}
               >
                 <option value="5">5</option>
                 <option value="4">4</option>
@@ -159,6 +208,7 @@ const RecordEditor: React.FC = () => {
         <textarea
           placeholder="본 영화에 대해서 느낀 점을 기록해 보세요."
           onChange={(e) => setPost({ ...post, review: e.target.value })}
+          value={post.review}
         />
 
         <button onClick={handleAddPost}>등록하기</button>

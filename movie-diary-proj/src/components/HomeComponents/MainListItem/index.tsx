@@ -6,6 +6,7 @@ import { IPost } from "../../../typings/db";
 const IMG_BASE_URL = "https://image.tmdb.org/t/p/w1280/";
 
 const MainListItem: React.FC<IPost> = ({
+  id,
   postId,
   movieTitle,
   moviePosterPath,

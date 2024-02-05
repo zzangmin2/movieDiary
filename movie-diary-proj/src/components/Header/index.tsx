@@ -8,10 +8,10 @@ import { getLoginCookie } from "../../utils/cookieUtils";
 
 interface Props {
   title: string;
-  isHome?: boolean;
+  ishome?: boolean;
 }
 
-const Header: React.FC<Props> = ({ title, isHome }) => {
+const Header: React.FC<Props> = ({ title, ishome }) => {
   const navigate = useNavigate();
   const cookieUser = getLoginCookie();
 
@@ -23,7 +23,7 @@ const Header: React.FC<Props> = ({ title, isHome }) => {
   };
 
   return (
-    <S.Header isHome={isHome}>
+    <S.Header ishome={ishome}>
       <div>
         <S.Logo
           onClick={() => {
