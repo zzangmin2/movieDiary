@@ -9,6 +9,9 @@ export const Banner = styled.div`
   margin-left: calc(-50vw + 50%);
   overflow-x: hidden;
   background-color: #2b3499;
+
+  @media (max-width: 575px) {
+  }
 `;
 
 export const OptionWrapper = styled.div`
@@ -29,6 +32,16 @@ export const OptionWrapper = styled.div`
   & div {
     display: flex;
   }
+
+  @media (max-width: 575px) {
+    flex-direction: column;
+    align-items: start;
+    padding: 20px 30px;
+
+    & div {
+      flex-direction: column;
+    }
+  }
 `;
 
 export const Filter = styled.select`
@@ -36,6 +49,10 @@ export const Filter = styled.select`
   border-radius: 5px;
   background-color: #f7f7f7;
   border: none;
+
+  @media (max-width: 575px) {
+    margin-bottom: 15px;
+  }
 `;
 
 export const MovieCountText = styled.div`
@@ -62,4 +79,16 @@ export const RecordBtn = styled.button`
   color: #fff;
   text-align: center;
   cursor: pointer;
+
+  @media (max-width: 575px) {
+    position: fixed;
+    bottom: 4%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90vw;
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+      rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    z-index: 999;
+  }
 `;

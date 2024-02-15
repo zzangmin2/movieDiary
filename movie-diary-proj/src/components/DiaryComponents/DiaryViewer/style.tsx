@@ -12,4 +12,8 @@ export const DiaryWrap = styled.div`
   display: flex;
 
   justify-content: space-between;
+
+  @media (max-width: 575px) {
+    flex-direction: column;
+  }
 `;

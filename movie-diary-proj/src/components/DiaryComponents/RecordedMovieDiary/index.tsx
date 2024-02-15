@@ -55,8 +55,10 @@ const RecordedMovieDiary: React.FC<Props> = ({
             <div>{renderStars(starRating)}</div>
           </S.reviewDataWrapper>
         </div>
-        <button onClick={onEdit}>수정하기</button>
-        <button onClick={onDelete}>삭제하기</button>
+        <div>
+          <button onClick={onEdit}>수정하기</button>
+          <button onClick={onDelete}>삭제하기</button>
+        </div>
       </S.RecordMovieMyInfo>
       <S.RecordedMovieReview>
         <div>나의 영화 후기</div>

@@ -9,7 +9,7 @@ export const RecordEditor = styled.div`
     height: 300px;
     padding: 30px 50px;
     border: none;
-    border-radius: 20px;
+    border-radius: 10px;
     box-sizing: border-box;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
       rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
@@ -18,7 +18,7 @@ export const RecordEditor = styled.div`
   & > button {
     float: right;
     padding: 0.75rem 1rem;
-    margin-top: 20px;
+    margin-top: 10px;
     background-color: #ff6c22;
     border: none;
     border-radius: 5px;
@@ -26,6 +26,24 @@ export const RecordEditor = styled.div`
     color: #fff;
     text-align: center;
     cursor: pointer;
+  }
+
+  @media (max-width: 575px) {
+    & > textarea {
+      height: 400px;
+      padding: 30px 30px;
+    }
+    & > button {
+      position: fixed;
+      bottom: 4%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90vw;
+      padding: 20px;
+      box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+        rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+      z-index: 999;
+    }
   }
 `;
 
@@ -36,12 +54,17 @@ export const RecordEditorTopSection = styled.section`
   padding: 30px 50px;
   background-color: #fff;
   box-sizing: border-box;
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
     rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 
   & > div {
     margin-right: 50px;
+  }
+
+  @media (max-width: 575px) {
+    padding: 30px 30px;
+    flex-direction: column;
   }
 `;
 
@@ -81,6 +104,10 @@ export const InputWrapper = styled.div`
     cursor: pointer;
   }
   button:hover {
+  }
+
+  @media (max-width: 575px) {
+    margin-bottom: 20px;
   }
 `;
 

@@ -16,6 +16,13 @@ export const ItemMovieImg = styled.div`
     object-fit: cover;
     border-radius: 10px 10px 0 0;
   }
+
+  @media (max-width: 575px) {
+    & img {
+      width: 150px;
+      height: 200px;
+    }
+  }
 `;
 
 export const ItemMovieInfo = styled.div`

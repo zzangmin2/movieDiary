@@ -20,8 +20,14 @@ const SignUp = () => {
     }
 
     if (password !== confirmPassword) {
-      alert("비밀번호가 일치하지 않습니다.");
+      alert(
+        "비밀번호 입력란과 비밀번호 확인 입력란에 입력한 값이 일치하지 않습니다."
+      );
       return;
+    }
+
+    if (userName.length > 6) {
+      alert("닉네임은 최대 6자 까지만 입력할 수 있습니다.");
     }
 
     try {
