@@ -4,22 +4,20 @@ import MainOption from "../../components/HomeComponents/MainOption";
 import MainList from "../../components/HomeComponents/MainList";
 import * as S from "./style";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../firebase";
-import { getLoginCookie } from "../../utils/cookieUtils";
+import useAuth from "../../redux/useAuth";
 
 const Home = () => {
-  const user = auth.currentUser;
+  const isLoggedIn = useAuth();
   const navigate = useNavigate();
   const [postListSorting, setPostListSorting] =
     useState<string>("recentWrited");
 
   useEffect(() => {
-    const cookieUser = getLoginCookie();
-    if (!cookieUser) {
+    if (!isLoggedIn) {
       navigate("/login");
       alert("로그인 해 주세용 ");
     }
-  }, [user, navigate]);
+  }, [navigate]);
 
   return (
     <S.Home>

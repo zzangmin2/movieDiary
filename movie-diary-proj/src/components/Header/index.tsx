@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import * as S from "./style";
 import { auth } from "../../firebase";
 import { getLoginCookie } from "../../utils/cookieUtils";
+import useAuth from "../../redux/useAuth";
 
 interface Props {
   title: string;
@@ -13,9 +14,11 @@ interface Props {
 
 const Header: React.FC<Props> = ({ title, ishome }) => {
   const navigate = useNavigate();
-  const cookieUser = getLoginCookie();
+  // const cookieUser = getLoginCookie();
+  const { isLoggedIn, user } = useAuth();
   const [mobileMenu, setMobileMenu] = useState(false);
   const [profileModalHovered, setProfileModalHovered] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogout = async () => {
     await auth.signOut();
@@ -27,6 +30,11 @@ const Header: React.FC<Props> = ({ title, ishome }) => {
   const handleMoblieModal = () => {
     setMobileMenu(!mobileMenu);
   };
+
+  useEffect(() => {
+    setIsLoading(true);
+  }, [isLoggedIn, user]);
+
   return (
     <S.Header ishome={ishome}>
       <div>
@@ -46,9 +54,7 @@ const Header: React.FC<Props> = ({ title, ishome }) => {
             <div>
               <FontAwesomeIcon icon={faUser} />
             </div>
-            {cookieUser && cookieUser.userName
-              ? cookieUser.userName
-              : "로그인해줘"}
+            {isLoggedIn && user?.userName ? user?.userName : "로그인해줘"}
           </S.MypageBtn>
           {profileModalHovered && (
             <S.Modal
@@ -59,7 +65,7 @@ const Header: React.FC<Props> = ({ title, ishome }) => {
                 <FontAwesomeIcon icon={faUser} />
               </div>
               <div>
-                {cookieUser.userName}님, <br /> 반갑습니다
+                {user?.userName}님, <br /> 반갑습니다
               </div>
               <div onClick={handleLogout}>로그아웃</div>
             </S.Modal>
@@ -75,7 +81,7 @@ const Header: React.FC<Props> = ({ title, ishome }) => {
                 <FontAwesomeIcon icon={faUser} />
               </div>
               <div>
-                {cookieUser.userName}님, <br /> 반갑습니다
+                {user?.userName}님, <br /> 반갑습니다
               </div>
               <div onClick={() => handleLogout()}>로그아웃</div>
             </S.mobileMenu>
