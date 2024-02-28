@@ -47,6 +47,7 @@ const SignUp = () => {
   return (
     <S.SignUp>
       <div>
+        <img src="/images/logo-blue.svg" alt="로고 이미지" width="70px" />
         <h1>회원가입</h1>
         <S.InputWrapper>
           <div>이메일</div>

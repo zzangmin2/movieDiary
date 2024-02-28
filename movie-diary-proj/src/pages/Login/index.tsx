@@ -28,6 +28,7 @@ const Login: React.FC = () => {
   return (
     <S.SignUp>
       <div>
+        <img src="/images/logo-blue.svg" alt="로고 이미지" width="70px" />
         <h1>로그인</h1>
         <S.InputWrapper>
           <div>이메일</div>
