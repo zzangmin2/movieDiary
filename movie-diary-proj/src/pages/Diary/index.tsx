@@ -6,22 +6,21 @@ import DiaryViewer from "../../components/DiaryComponents/DiaryViewer";
 import { useNavigate, useParams } from "react-router-dom";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { IPost } from "../../typings/db";
-import { getLoginCookie } from "../../utils/cookieUtils";
 import { db } from "../../firebase";
 import { match } from "assert";
+import useAuth from "../../redux/useAuth";
 
 const Diary = () => {
-  const navigate = useNavigate();
-  const cookieUser = getLoginCookie();
+  const isLoggedIn = useAuth();
   const { id } = useParams();
   const [data, setData] = useState<IPost>();
 
   useEffect(() => {
     const fetchPostData = async () => {
-      if (cookieUser) {
+      if (isLoggedIn.user) {
         const PostDataQuery = query(
           collection(db, "posts"),
-          where("user", "==", cookieUser.email),
+          where("user", "==", isLoggedIn.user.email),
           orderBy("date", "desc")
         );
 

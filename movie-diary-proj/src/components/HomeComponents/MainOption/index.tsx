@@ -4,23 +4,23 @@ import * as S from "./style";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { IPost } from "../../../typings/db";
-import { getLoginCookie } from "../../../utils/cookieUtils";
+import useAuth from "../../../redux/useAuth";
 
 interface Props {
   setPostListSorting: Dispatch<SetStateAction<string>>;
 }
 const MainOption: React.FC<Props> = ({ setPostListSorting }) => {
+  const isLoggedIn = useAuth();
   const navigate = useNavigate();
-  const cookieUser = getLoginCookie();
 
   const [post, setPost] = useState<IPost[]>([]);
 
   useEffect(() => {
     const fetchPostData = async () => {
-      if (cookieUser) {
+      if (isLoggedIn.user) {
         const PostDataQuery = query(
           collection(db, "posts"),
-          where("user", "==", cookieUser?.email),
+          where("user", "==", isLoggedIn.user.email),
           orderBy("date", "desc")
         );
 
@@ -43,7 +43,6 @@ const MainOption: React.FC<Props> = ({ setPostListSorting }) => {
           });
 
           setPost(posts);
-          console.log(posts);
         } catch (e) {
           console.log(e);
         }

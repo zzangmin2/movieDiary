@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import * as S from "./style";
 import MovieSelectModal from "../MovieSelectModal";
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { IMovie } from "../../../typings/db";
-import { ref } from "firebase/storage";
-import { auth, db, storage } from "../../../firebase";
+import { auth, db } from "../../../firebase";
 import {
   addDoc,
   collection,
@@ -17,13 +15,14 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { getLoginCookie } from "../../../utils/cookieUtils";
-import { match } from "assert";
+
+import useAuth from "../../../redux/useAuth";
 
 interface Props {
   pageType: string;
 }
 const RecordEditor: React.FC<Props> = ({ pageType }) => {
+  const isLoggedIn = useAuth();
   const user = auth.currentUser;
   const { id } = useParams();
 
@@ -36,7 +35,6 @@ const RecordEditor: React.FC<Props> = ({ pageType }) => {
     release_date: "",
   });
 
-  const cookieUser = getLoginCookie();
   const [post, setPost] = useState({
     id: "",
     date: "",
@@ -47,7 +45,7 @@ const RecordEditor: React.FC<Props> = ({ pageType }) => {
     postId: 0,
     review: "",
     starRating: 5,
-    user: cookieUser.email,
+    user: isLoggedIn.user?.email,
   });
   const navigate = useNavigate();
   const openModal = () => {
@@ -70,7 +68,6 @@ const RecordEditor: React.FC<Props> = ({ pageType }) => {
         try {
           if (PostDataQuery) {
             const snapshot = await getDocs(PostDataQuery);
-            console.log(snapshot);
             const posts = snapshot.docs.map((doc) => {
               const data = doc.data();
               return {
@@ -97,7 +94,6 @@ const RecordEditor: React.FC<Props> = ({ pageType }) => {
                 (e) => e.postId === (id ? parseInt(id) : undefined)
               );
 
-              console.log(matchingPost);
               if (matchingPost) {
                 setPost(matchingPost);
                 setSelectedMovieInfo({
@@ -135,9 +131,21 @@ const RecordEditor: React.FC<Props> = ({ pageType }) => {
     if (!user) return;
 
     if (pageType === "record") {
+      if (!post.date.trim()) {
+        alert("시청 날짜를 입력해주세요");
+        return;
+      }
+      if (!post.movieTitle.trim()) {
+        alert("본 영화를 선택해주세요");
+        return;
+      }
+      if (!post.review.trim()) {
+        alert("느낀 점을 입력해주세요");
+        return;
+      }
+
       try {
         await addDoc(collection(db, "posts"), post);
-        console.log("성공!", post);
         navigate("/");
       } catch (e) {
         console.log(e);

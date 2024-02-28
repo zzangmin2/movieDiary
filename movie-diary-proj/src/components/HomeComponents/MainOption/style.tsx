@@ -7,7 +7,8 @@ export const Banner = styled.div`
   height: 70px;
   width: 100vw;
   margin-left: calc(-50vw + 50%);
-  overflow-x: hidden;
+  overflow: hidden;
+  box-sizing: border-box;
   background-color: #2b3499;
 
   @media (max-width: 575px) {

@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { faBars, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faUser, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
 import * as S from "./style";
 import { auth } from "../../firebase";
-import { getLoginCookie } from "../../utils/cookieUtils";
 import useAuth from "../../redux/useAuth";
 
 interface Props {
@@ -14,11 +13,9 @@ interface Props {
 
 const Header: React.FC<Props> = ({ title, ishome }) => {
   const navigate = useNavigate();
-  // const cookieUser = getLoginCookie();
   const { isLoggedIn, user } = useAuth();
   const [mobileMenu, setMobileMenu] = useState(false);
   const [profileModalHovered, setProfileModalHovered] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogout = async () => {
     await auth.signOut();
@@ -31,10 +28,6 @@ const Header: React.FC<Props> = ({ title, ishome }) => {
     setMobileMenu(!mobileMenu);
   };
 
-  useEffect(() => {
-    setIsLoading(true);
-  }, [isLoggedIn, user]);
-
   return (
     <S.Header ishome={ishome}>
       <div>
@@ -44,7 +37,19 @@ const Header: React.FC<Props> = ({ title, ishome }) => {
               navigate("/");
             }}
           >
-            MOVIEDIARY
+            {ishome ? (
+              <img
+                src="/images/logo-white.svg"
+                alt="로고 이미지"
+                width="100px"
+              />
+            ) : (
+              <img
+                src="/images/logo-blue.svg"
+                alt="로고 이미지"
+                width="100px"
+              />
+            )}
           </S.Logo>
           <S.Title>{title}</S.Title>
           <S.MypageBtn
@@ -76,14 +81,18 @@ const Header: React.FC<Props> = ({ title, ishome }) => {
         {mobileMenu && (
           <>
             <S.mobileMenu>
-              <div onClick={handleMoblieModal}>닫기</div>
               <div>
-                <FontAwesomeIcon icon={faUser} />
+                <div onClick={handleMoblieModal}>
+                  <FontAwesomeIcon icon={faX} />
+                </div>
+                <div>
+                  <FontAwesomeIcon icon={faUser} />
+                </div>
+                <div>
+                  {user?.userName}님, <br /> 반갑습니다
+                </div>
+                <div onClick={() => handleLogout()}>로그아웃</div>
               </div>
-              <div>
-                {user?.userName}님, <br /> 반갑습니다
-              </div>
-              <div onClick={() => handleLogout()}>로그아웃</div>
             </S.mobileMenu>
           </>
         )}

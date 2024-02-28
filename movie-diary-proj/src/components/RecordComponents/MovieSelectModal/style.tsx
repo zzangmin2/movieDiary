@@ -46,13 +46,13 @@ export const DarkOverlay = styled.div`
 
 export const MovieList = styled.div`
   & ul {
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: start;
     height: 350px;
     padding: 10px;
 
-    overflow-y: scroll;
     overflow-x: hidden;
   }
 

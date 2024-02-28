@@ -37,7 +37,6 @@ const SignUp = () => {
         password
       );
 
-      console.log(credentials.user);
       await updateProfile(credentials.user, { displayName: userName });
       navigate("/login");
     } catch (e) {

@@ -10,13 +10,11 @@ interface Props {
 }
 
 const DiaryViewer: React.FC<Props> = ({ data }) => {
-  console.log(data);
   const navigate = useNavigate();
   if (!data) {
     return null;
-  } else {
-    console.log(data);
   }
+  
   return (
     <>
       <S.prevBtn

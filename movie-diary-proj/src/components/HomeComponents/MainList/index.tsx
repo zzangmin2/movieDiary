@@ -4,24 +4,22 @@ import * as S from "./style";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { IPost } from "../../../typings/db";
-import { getLoginCookie } from "../../../utils/cookieUtils";
+import useAuth from "../../../redux/useAuth";
 
 interface Props {
   postListSorting: string;
 }
 
 const MainList: React.FC<Props> = ({ postListSorting }) => {
-  const cookieUser = getLoginCookie();
-
+  const isLoggedIn = useAuth();
   const [post, setPost] = useState<IPost[]>([]);
 
   useEffect(() => {
     const fetchPostData = async () => {
-      if (cookieUser) {
+      if (isLoggedIn.user) {
         const PostDataQuery = query(
           collection(db, "posts"),
-          where("user", "==", cookieUser?.email)
-          // orderBy("postId", "desc")
+          where("user", "==", isLoggedIn.user.email)
         );
 
         try {
@@ -43,7 +41,6 @@ const MainList: React.FC<Props> = ({ postListSorting }) => {
           });
 
           setPost(posts);
-          console.log(posts);
         } catch (e) {
           console.log(e);
         }
@@ -78,20 +75,6 @@ const MainList: React.FC<Props> = ({ postListSorting }) => {
 
   return (
     <S.MainList>
-      {/* {getProcessedPostList().map((e: any) => {
-        return (
-          <S.MainListItemWrapper key={e.movie.id}>
-            <MainListItem
-              id={e.idx}
-              title={e.movie.title}
-              posterPath={e.movie.poster_path}
-              releaseDate={e.date}
-              score={e.starRating}
-            />
-          </S.MainListItemWrapper>
-        );
-      })} */}
-
       {post ? (
         getProcessedPostList().map((e: any) => {
           return (

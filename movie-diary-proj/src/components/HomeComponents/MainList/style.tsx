@@ -6,6 +6,7 @@ export const MainList = styled.div`
   justify-content: start;
   padding: 10px 0;
   margin: 100px 60px;
+  box-sizing: border-box;
 
   @media (max-width: 575px) {
     margin: 100px 0;

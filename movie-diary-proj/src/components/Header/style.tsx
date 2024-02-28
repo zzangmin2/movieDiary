@@ -124,9 +124,6 @@ export const Modal = styled.div`
     background-color: #eeeeee;
   }
 
-  & div:nth-child(2) {
-  }
-
   & div:nth-child(3) {
     margin-top: 20px;
     color: #919191;
@@ -142,12 +139,48 @@ export const mobileMenu = styled.div`
     display: block;
     height: 100vh;
     background-color: #fff;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
-      rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 40px 100px 0px,
+      rgba(0, 0, 0, 0.2) 0px 0px 0px 0px;
     color: black;
     position: fixed;
+
     top: 0;
     right: 0;
     z-index: 999;
+
+    & > div:nth-child(1) {
+      width: 100%;
+      padding: 30px;
+      box-sizing: border-box;
+    }
+
+    & > div:nth-child(1) > div:nth-child(1) {
+      font-size: 1.25rem;
+      color: #2b3499;
+      margin-bottom: 20px;
+    }
+
+    & > div:nth-child(1) > div:nth-child(2) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 50%;
+      background-color: #eeeeee;
+    }
+
+    & > div:nth-child(1) > div:nth-child(3) {
+      color: #2b3499;
+      font-size: 1.25rem;
+    }
+
+    & > div:nth-child(1) > div:nth-child(4) {
+      margin-top: 20px;
+      color: #919191;
+      cursor: pointer;
+    }
   }
 `;
