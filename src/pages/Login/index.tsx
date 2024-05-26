@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import * as S from "./style";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
-import { setLoginCookie } from "../../utils/cookieUtils";
 import useAuth from "../../redux/useAuth";
 
 const Login: React.FC = () => {
@@ -16,7 +15,6 @@ const Login: React.FC = () => {
       await signInWithEmailAndPassword(auth, email, password);
       const user = auth.currentUser;
       const userName = user?.displayName;
-      setLoginCookie({ email, password, userName });
       handleReduxLogin({ email, password, userName });
       navigate("/");
     } catch (e) {
@@ -43,7 +41,8 @@ const Login: React.FC = () => {
         </S.InputWrapper>
         <S.Button onClick={handleLogin}>로그인</S.Button>
         <S.SignUpButton>
-          <Link to="/SignUp">회원가입</Link>
+          <div>아직 회원이 아니신가요?</div>
+          <button onClick={() => navigate("/SignUp")}>회원가입하기</button>
         </S.SignUpButton>
       </div>
     </S.SignUp>

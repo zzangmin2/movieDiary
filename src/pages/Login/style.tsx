@@ -51,8 +51,18 @@ export const Button = styled.div`
 `;
 
 export const SignUpButton = styled.div`
-  margin-top: 10px;
-  font-size: 1rem;
+  margin-top: 20px;
 
-  color: #9c9c9c;
+  display: flex;
+  justify-content: space-around;
+  color: #6c6c6c;
+
+  > button {
+    border: none;
+    background: none;
+    font-size: 1rem;
+    color: #2b3499;
+    text-decoration: underline;
+    cursor: pointer;
+  }
 `;

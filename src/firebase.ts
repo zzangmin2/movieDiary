@@ -5,13 +5,13 @@ import { getStorage } from "firebase/storage";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAODNrhLeGP6o_6L2Aq5TqJ6MHpJ_6Zeic",
-  authDomain: "movie-dairy.firebaseapp.com",
-  projectId: "movie-dairy",
-  storageBucket: "movie-dairy.appspot.com",
-  messagingSenderId: "192869942441",
-  appId: "1:192869942441:web:8034f2d1daec1022a955b8",
-  measurementId: "G-QWT0YTQHMY",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);

@@ -17,7 +17,7 @@ const MovieSelectModal: React.FC<Props> = ({
   const [selectedMovie, setSelectedMovie] = useState<IMovie>();
   const [clickSearchBtn, setClickSearchBtn] = useState(false);
 
-  const apiKey = "8a30d757cc508b84e1bb016450c77af9";
+  const apiKey = process.env.REACT_APP_THEMOVIEDB_API_KEY;
 
   const searchMovies = () => {
     axios
