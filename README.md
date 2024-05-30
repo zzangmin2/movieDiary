@@ -65,7 +65,7 @@
 
 ```
 
-### 설치 및 실행
+### 배포
+https://movie-dairy.web.app/login
 
-1. 저장소 클론
-2.
+( 테스트 계정 아이디 : test8@gmail.com / 비밀번호 : abcd1234 ) 
